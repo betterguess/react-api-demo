@@ -1,0 +1,55 @@
+/* src/TextEditor.css */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    color: #f0f0f0; /* Light grey text */
+  }
+  
+  header {
+    padding: 10px 20px;
+    background-color: #282c34; /* Dark background for the header */
+    color: #61dafb; /* Light blue for the title */
+  }
+  
+  .text-editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    background-color: #20232a; /* Darker shade for the text area background */
+  }
+  
+  textarea {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    color: #61dafb; /* Light blue text in the textarea */
+    background-color: #282c34; /* Dark background for the textarea */
+    border: none;
+    border-radius: 4px;
+    resize: none;
+  }
+  
+  .suggestions {
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #fff; /* White text for suggestions */
+  }
+  
+  .suggestion:hover {
+    background-color: #555;
+  }

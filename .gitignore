@@ -1,3 +1,9 @@
+# Mac stuff
+**/.DS_Store
+
+# Node stuff
+build
+
 # Logs
 logs
 *.log
