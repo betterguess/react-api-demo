@@ -32,9 +32,9 @@ const TextEditor = () => {
       const fetchSuggestions = async (prompt) => {
         try {
           console.info('Entering predictions');
-          // const remoteuri = 'https://cloudapidemo.azurewebsites.net/continuations';
-          const localuri = 'http://127.0.0.1:8080/continuations';
-          const response = await axios.post(localuri, {
+          const uri = 'https://cloudapidemo.azurewebsites.net/continuations'; // Remote, hosted on Azure
+          // const uri = 'http://127.0.0.1:8080/continuations'; // Local, running from IDEA
+          const response = await axios.post(uri, {
             locale: "en_US",
             prompt: prompt
           });
