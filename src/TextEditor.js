@@ -12,27 +12,6 @@ const TextEditor = () => {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const textareaRef = useRef(null);
 
-  /*
-  const fetchSuggestions = async (prompt) => {
-    try {
-      console.info('Entering predictions');
-      const remoteuri = 'https://cloudapidemo.azurewebsites.net/continuations';
-      const localuri = 'http://127.0.0.1:8080/continuations';
-      const response = await axios.post(localuri, {
-        locale: "en_US",
-        prompt: prompt
-      });
-      const currentWord = getCurrentWord(prompt);
-      const processedSuggestions = response.data.continuations.map(suggestion => 
-        matchCase(suggestion, currentWord)
-      );
-      setSuggestions(processedSuggestions);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-    }
-  };
-  */
-
   const getCurrentWord = (text) => {
     const words = text.split(/\s+/);
     return words[words.length - 1] || "";
@@ -46,14 +25,6 @@ const TextEditor = () => {
     }
   };
 
-  /*
-  useEffect(() => {
-    if (text) {
-      const prompt = text.slice(0, cursorPosition);
-      fetchSuggestions(prompt);
-    }
-  }, [text, cursorPosition]);
-  */
   useEffect(() => {
     if (text) {
       const prompt = text.slice(0, cursorPosition);
@@ -132,7 +103,7 @@ const TextEditor = () => {
           value={text}
           onChange={handleChange}
           onSelect={handleSelect}
-          placeholder="Type your text here... If you dare! This is github folder."
+          placeholder="Type your text here..."
         />
         {suggestions.length > 0 && (
           <ul className="suggestions" style={{ left: `${coords.x}px`, top: `${coords.y}px` }}>
