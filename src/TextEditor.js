@@ -12,24 +12,75 @@ const TextEditor = () => {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const textareaRef = useRef(null);
 
-  useEffect(() => {
-    const fetchSuggestions = async (prompt) => {
-      try {
-        const response = await axios.post('https://cloudapidemo.azurewebsites.net/continuations', {
-          locale: "en_US",
-          prompt: prompt
-        });
-        setSuggestions(response.data.continuations || []);
-      } catch (error) {
-        console.error('Error fetching suggestions:', error);
-      }
-    };
+  /*
+  const fetchSuggestions = async (prompt) => {
+    try {
+      console.info('Entering predictions');
+      const remoteuri = 'https://cloudapidemo.azurewebsites.net/continuations';
+      const localuri = 'http://127.0.0.1:8080/continuations';
+      const response = await axios.post(localuri, {
+        locale: "en_US",
+        prompt: prompt
+      });
+      const currentWord = getCurrentWord(prompt);
+      const processedSuggestions = response.data.continuations.map(suggestion => 
+        matchCase(suggestion, currentWord)
+      );
+      setSuggestions(processedSuggestions);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    }
+  };
+  */
 
+  const getCurrentWord = (text) => {
+    const words = text.split(/\s+/);
+    return words[words.length - 1] || "";
+  };
+
+  const matchCase = (suggestion, wordToReplace) => {
+    if (wordToReplace && wordToReplace[0] === wordToReplace[0].toUpperCase()) {
+      return suggestion.charAt(0).toUpperCase() + suggestion.slice(1);
+    } else {
+      return suggestion.toLowerCase();
+    }
+  };
+
+  /*
+  useEffect(() => {
     if (text) {
       const prompt = text.slice(0, cursorPosition);
       fetchSuggestions(prompt);
     }
-  }, [text, cursorPosition]);  // fetchSuggestions is defined within useEffect and doesn't need to be a dependency
+  }, [text, cursorPosition]);
+  */
+  useEffect(() => {
+    if (text) {
+      const prompt = text.slice(0, cursorPosition);
+  
+      const fetchSuggestions = async (prompt) => {
+        try {
+          console.info('Entering predictions');
+          // const remoteuri = 'https://cloudapidemo.azurewebsites.net/continuations';
+          const localuri = 'http://127.0.0.1:8080/continuations';
+          const response = await axios.post(localuri, {
+            locale: "en_US",
+            prompt: prompt
+          });
+          const currentWord = getCurrentWord(prompt);
+          const processedSuggestions = response.data.continuations.map(suggestion => 
+            matchCase(suggestion, currentWord)
+          );
+          setSuggestions(processedSuggestions);
+        } catch (error) {
+          console.error('Error fetching suggestions:', error);
+        }
+      };
+  
+      fetchSuggestions(prompt);
+    }
+  }, [text, cursorPosition]);
+
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -63,9 +114,10 @@ const TextEditor = () => {
   const updateCursorPosition = (textarea, position) => {
     const caret = getCaretCoordinates(textarea, position);
     const textareaRect = textarea.getBoundingClientRect();
+    
     setCoords({
-      x: caret.left + textareaRect.left + window.scrollX,
-      y: caret.top + textareaRect.top + window.scrollY + 24 // assuming 24px roughly equals the height of one line
+      x: caret.left + textareaRect.left + window.scrollX, // Added textareaRect.left for horizontal alignment
+      y: caret.top + textareaRect.top + window.scrollY + 24 // Added textareaRect.top for vertical alignment
     });
   };
 
