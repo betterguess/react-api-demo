@@ -132,7 +132,7 @@ const TextEditor = () => {
           value={text}
           onChange={handleChange}
           onSelect={handleSelect}
-          placeholder="Type your text here... If you dare!"
+          placeholder="Type your text here... If you dare! This is github folder."
         />
         {suggestions.length > 0 && (
           <ul className="suggestions" style={{ left: `${coords.x}px`, top: `${coords.y}px` }}>
