@@ -34,10 +34,12 @@ const TextEditor = () => {
           console.info('Entering predictions');
           const uri = 'https://cloudapidemo.azurewebsites.net/continuations'; // Remote, hosted on Azure
           // const uri = 'http://127.0.0.1:8080/continuations'; // Local, running from IDEA
+          console.info('Fetching from ' + uri);
           const response = await axios.post(uri, {
             locale: "en_US",
             prompt: prompt
           });
+          console.info('Got response ' + response);
           const currentWord = getCurrentWord(prompt);
           const processedSuggestions = response.data.continuations.map(suggestion => 
             matchCase(suggestion, currentWord)
